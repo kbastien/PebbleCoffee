@@ -4,7 +4,7 @@
         "location"
     ],
     "companyName": "kevinjbastien@gmail.com",
-    "longName": "Coffee",
+    "longName": "Coffee Time",
     "projectType": "pebblejs",
     "resources": {
         "media": [
@@ -29,14 +29,14 @@
                 "type": "font"
             },
             {
-                "file": "images/cup16.png",
+                "file": "images/16x16.png",
                 "menuIcon": true,
-                "name": "IMAGES_CUP16_PNG",
+                "name": "IMAGES_16X16_PNG",
                 "type": "png"
             }
         ]
     },
-    "shortName": "Coffee",
+    "shortName": "Coffee Time",
     "uuid": "57553fb9-086c-46e3-bc27-b5a7badb858d",
     "versionCode": 1,
     "versionLabel": "1.0",
