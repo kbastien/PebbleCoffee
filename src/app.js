@@ -1,20 +1,11 @@
 /*
  A Pebble app that uses Google Places API to find the nearest coffee shop or cafe, and gives you the directions
-
 */
 
 // Import the UI elements
 var UI = require('ui');
 var Vector2 = require('vector2');
 var ajax = require('ajax');
-// // Create a simple Card
-// var card = new UI.Card({
-//   title: 'Coffee Time',
-//   body: 'This is your first Pebble app!'
-// });
-
-// // Display to the user
-// card.show();
 
 var splashWindow = new UI.Window();
 
@@ -23,7 +14,7 @@ var text = new UI.Text({
   position: new Vector2(0, 0),
   size: new Vector2(144, 168),
   text:'Finding the nearest coffee shop...',
-  font:'GOTHIC_28_BOLD',
+  font: 'gothic-28-bold',
   color:'black',
   textOverflow:'wrap',
   textAlign:'center',
@@ -34,15 +25,30 @@ var text = new UI.Text({
 splashWindow.add(text);
 splashWindow.show();
 
-// Make request to openweathermap.org
+var locationOptions = {
+  enableHighAccuracy: true, 
+  maximumAge: 10000, 
+  timeout: 10000
+};
+
+var lat;  
+var long;
+
+function locationSuccess(pos) {
+  lat = pos.coords.latitude;
+  long = pos.coords.longitude;
+  
+// Make request to google places api
 ajax(
   {
     url:
-    'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=200&types=cafe&key=AIzaSyBG4BT7DKSpwLBq3G4o3cIOAxCri4bQXz8',
+    'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+lat+','+long+'&radius=200&types=cafe&key=AIzaSyBG4BT7DKSpwLBq3G4o3cIOAxCri4bQXz8',
     type:'json'
   },
+  
   function(data) {
     console.log('Successfully fetched the cafe data!');
+    
     var location = data.results[0].name;
     var address = data.results[0].vicinity;
     
@@ -66,3 +72,13 @@ ajax(
     console.log('Download failed: ' + error);
   }
 );
+  
+//   console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
+}
+
+function locationError(err) {
+  console.log('location error (' + err.code + '): ' + err.message);
+}
+
+// Make an asynchronous request
+navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions);
