@@ -39,6 +39,22 @@ var destLong;
 function locationSuccess(pos) {
   lat = pos.coords.latitude;
   long = pos.coords.longitude;
+
+ajax(
+  {
+  url: 'http://api.workfrom.co/places/ll/'+lat+','+long+'/',
+  type:'json'
+  },
+  
+  function(data) {
+    console.log('workfrom works!');
+    console.log("Description:" + data.response[0].description);
+    console.log(data.response[0].password);
+  }
+  
+  
+);
+  
   
 // Make request to google places api
 ajax(
