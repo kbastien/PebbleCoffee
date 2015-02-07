@@ -37,8 +37,10 @@ var destLat;
 var destLong;
 
 function locationSuccess(pos) {
-  lat = pos.coords.latitude;
-  long = pos.coords.longitude;
+//  lat = pos.coords.latitude;
+//  long = pos.coords.longitude;
+  lat = 45.525207;
+  long = -122.683527;
 
 ajax(
   {
@@ -48,8 +50,8 @@ ajax(
   
   function(data) {
     console.log('workfrom works!');
-    console.log("Description:" + data.response[0].description);
-    console.log(data.response[0].password);
+    console.log("Description: " + data.response[0].description);
+    console.log("Password: " + data.response[0].password);
   }
   
   
@@ -66,7 +68,7 @@ ajax(
   
   function(data) {
     console.log('Successfully fetched the cafe data!');
-    
+//    console.log(data.results[0].address_components.postal_code);
     var location = data.results[0].name;
     var address = data.results[0].vicinity;
     destLat = data.results[0].geometry.location.lat;
@@ -105,9 +107,9 @@ ajax(
       console.log('Successfully fetched cafe data!');
       var i = 0;
       var dirCard;
-      
       var getInstructions = function(i){
         var str = data.routes[0].legs[0].steps[i].html_instructions;
+        
         // Step 3 Turn <b>left</b><div style="font-size:0.9em">Destination will be on the right</div>
         console.log("Step " + (i + 1) + " " + str);
         str=str.replace(/<br>/gi, "\n");
