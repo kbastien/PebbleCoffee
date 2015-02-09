@@ -37,10 +37,8 @@ var destLat;
 var destLong;
 
 function locationSuccess(pos) {
-//  lat = pos.coords.latitude;
-//  long = pos.coords.longitude;
-  lat = 45.525207;
-  long = -122.683527;
+  lat = pos.coords.latitude;
+  long = pos.coords.longitude;
 
 ajax(
   {
@@ -62,13 +60,12 @@ ajax(
 ajax(
   {
     url:
-    'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+lat+','+long+'&radius=200&types=cafe&key=AIzaSyBG4BT7DKSpwLBq3G4o3cIOAxCri4bQXz8',
+    'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+lat+','+long+'&radius=100&types=cafe&key=AIzaSyBG4BT7DKSpwLBq3G4o3cIOAxCri4bQXz8',
     type:'json'
   },
   
   function(data) {
     console.log('Successfully fetched the cafe data!');
-//    console.log(data.results[0].address_components.postal_code);
     var location = data.results[0].name;
     var address = data.results[0].vicinity;
     destLat = data.results[0].geometry.location.lat;
@@ -94,53 +91,53 @@ ajax(
     });
     
     
-  addressCard.on('click', function(e){
+//   addressCard.on('click', function(e){
     
-  // Make the request using google directions api
-  ajax(
-    {
-      url: 'https://maps.googleapis.com/maps/api/directions/json?origin='+lat+','+long+'&destination='+destLat+ ',' + destLong +  '&mode=walking&key=AIzaSyBG4BT7DKSpwLBq3G4o3cIOAxCri4bQXz8',
-      type: 'json'
-    },
-    function(data) {
-      // Success!
-      console.log('Successfully fetched cafe data!');
-      var i = 0;
-      var dirCard;
-      var getInstructions = function(i){
-        var str = data.routes[0].legs[0].steps[i].html_instructions;
+//   // Make the request using google directions api
+//   ajax(
+//     {
+//       url: 'https://maps.googleapis.com/maps/api/directions/json?origin='+lat+','+long+'&destination='+destLat+ ',' + destLong +  '&mode=walking&key=AIzaSyBG4BT7DKSpwLBq3G4o3cIOAxCri4bQXz8',
+//       type: 'json'
+//     },
+//     function(data) {
+//       // Success!
+//       console.log('Successfully fetched cafe data!');
+//       var i = 0;
+//       var dirCard;
+//       var getInstructions = function(i){
+//         var str = data.routes[0].legs[0].steps[i].html_instructions;
         
-        // Step 3 Turn <b>left</b><div style="font-size:0.9em">Destination will be on the right</div>
-        console.log("Step " + (i + 1) + " " + str);
-        str=str.replace(/<br>/gi, "\n");
-        str=str.replace(/<p.*>/gi, "\n");
-        str=str.replace(/<(?:.|\s)*?>/g, " ");
-        str=str + '\n' + 'for ' + data.routes[0].legs[0].steps[i].distance.text + ' this will take you ' + data.routes[0].legs[0].steps[i].duration.text;
-        return str;
-      };
+//         // Step 3 Turn <b>left</b><div style="font-size:0.9em">Destination will be on the right</div>
+//         console.log("Step " + (i + 1) + " " + str);
+//         str=str.replace(/<br>/gi, "\n");
+//         str=str.replace(/<p.*>/gi, "\n");
+//         str=str.replace(/<(?:.|\s)*?>/g, " ");
+//         str=str + '\n' + 'for ' + data.routes[0].legs[0].steps[i].distance.text + ' this will take you ' + data.routes[0].legs[0].steps[i].duration.text;
+//         return str;
+//       };
       
-      var createNewCard = function(i){
-        dirCard = new UI.Card({
-              title:'Step ' + (i+1),
-              body: getInstructions(i)
-            });
-              dirCard.show();
-         dirCard.on('click', function(e) {
-            i++;  
-            createNewCard(i);
-          });
-      };
-      if (i < data.routes[0].legs[0].steps.length) {
-        createNewCard(i);
-      }
+//       var createNewCard = function(i){
+//         dirCard = new UI.Card({
+//               title:'Step ' + (i+1),
+//               body: getInstructions(i)
+//             });
+//               dirCard.show();
+//          dirCard.on('click', function(e) {
+//             i++;  
+//             createNewCard(i);
+//           });
+//       };
+//       if (i < data.routes[0].legs[0].steps.length) {
+//         createNewCard(i);
+//       }
 
 
-    },
-    function(error) {
-      // Failure!
-      console.log('Failed fetching cafe data: ' + error);
-    });
-  });
+//     },
+//     function(error) {
+//       // Failure!
+//       console.log('Failed fetching cafe data: ' + error);
+//     });
+//   });
 
   },
   function(error) {
@@ -151,7 +148,6 @@ ajax(
 );
 
   
-//   console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
 }
 
 function locationError(err) {
